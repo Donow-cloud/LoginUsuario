@@ -5,10 +5,11 @@ import 'package:http/http.dart' as http;
 
 final urlapi = url;
 
-class Usuario_provider with ChangeNotifier {
+// ignore: camel_case_types
+class usuario_provider with ChangeNotifier {
   List<Usuario> usuarios = [];
 
-  Usuario_provider() {
+  usuario_provider() {
     getUsuarios();
   }
 

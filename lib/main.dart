@@ -8,10 +8,11 @@ import 'package:traveler_app/Screens/login_screen.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => Usuario_provider())],
+      providers: [ChangeNotifierProvider(create: (_) => usuario_provider())],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Material App',

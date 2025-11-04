@@ -46,7 +46,7 @@ class LoginScreen extends StatelessWidget {
   }
 
   SingleChildScrollView loginform(BuildContext context) {
-    final usuarioProvider = Provider.of<Usuario_provider>(context);
+    final usuarioProvider = Provider.of<usuario_provider>(context);
     TextEditingController txtCorreo = TextEditingController();
     TextEditingController txtPassword = TextEditingController();
     return SingleChildScrollView(
@@ -77,100 +77,96 @@ class LoginScreen extends StatelessWidget {
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
                 SizedBox(height: 30),
-                Container(
-                  child: Form(
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    child: Column(
-                      children: [
-                        TextFormField(
-                          keyboardType: TextInputType.emailAddress,
-                          autocorrect: false,
-                          controller: txtCorreo,
-                          decoration: InputDecorations.inputDecoration(
-                            hintext: 'ejemplo@gmail.com',
-                            labeltext: 'Email',
-                            icono: Icon(Icons.alternate_email_rounded),
-                          ),
-                          validator: (value) {
-                            String pattern =
-                                r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                            RegExp regExp = new RegExp(pattern);
-                            return regExp.hasMatch(value ?? '')
-                                ? null
-                                : 'Ingrese un email válido';
-                          },
+                Form(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        keyboardType: TextInputType.emailAddress,
+                        autocorrect: false,
+                        controller: txtCorreo,
+                        decoration: InputDecorations.inputDecoration(
+                          hintext: 'ejemplo@gmail.com',
+                          labeltext: 'Email',
+                          icono: Icon(Icons.alternate_email_rounded),
                         ),
-                        const SizedBox(height: 30),
-                        TextFormField(
-                          autocorrect: false,
-                          obscureText: true,
-                          controller: txtPassword,
-                          decoration: InputDecorations.inputDecoration(
-                            hintext: '********',
-                            labeltext: 'Password',
-                            icono: Icon(Icons.lock_rounded),
-                          ),
-                          validator: (value) {
-                            return (value != null && value.length >= 8)
-                                ? null
-                                : 'La contraseña debe tener más de 8 caracteres';
-                          },
+                        validator: (value) {
+                          String pattern =
+                              r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                          RegExp regExp = RegExp(pattern);
+                          return regExp.hasMatch(value ?? '')
+                              ? null
+                              : 'Ingrese un email válido';
+                        },
+                      ),
+                      const SizedBox(height: 30),
+                      TextFormField(
+                        autocorrect: false,
+                        obscureText: true,
+                        controller: txtPassword,
+                        decoration: InputDecorations.inputDecoration(
+                          hintext: '********',
+                          labeltext: 'Password',
+                          icono: Icon(Icons.lock_rounded),
                         ),
-                        const SizedBox(height: 30),
-                        MaterialButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                        validator: (value) {
+                          return (value != null && value.length >= 8)
+                              ? null
+                              : 'La contraseña debe tener más de 8 caracteres';
+                        },
+                      ),
+                      const SizedBox(height: 30),
+                      MaterialButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        disabledColor: Colors.grey,
+                        color: Colors.deepPurple,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 80,
+                            vertical: 15,
                           ),
-                          disabledColor: Colors.grey,
-                          color: Colors.deepPurple,
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 80,
-                              vertical: 15,
-                            ),
-                            child: Text(
-                              'Ingresar',
-                              style: TextStyle(color: Colors.white),
-                            ),
+                          child: Text(
+                            'Ingresar',
+                            style: TextStyle(color: Colors.white),
                           ),
-                          onPressed: () {
-                            var usuarios = usuarioProvider.usuarios;
-                            if (usuarios
-                                    .where((e) => e.email == txtCorreo.text)
-                                    .isNotEmpty &&
-                                usuarios
-                                    .where(
-                                      (e) => e.password == txtPassword.text,
-                                    )
-                                    .isNotEmpty) {
-                              Navigator.pushReplacementNamed(context, 'home');
-                            } else {
-                              showDialog(
-                                useSafeArea: true,
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: Text('Usuario no existe'),
-                                    content: Text(
-                                      'Por favor, ingrese un usuario válido',
+                        ),
+                        onPressed: () {
+                          var usuarios = usuarioProvider.usuarios;
+                          if (usuarios
+                                  .where((e) => e.email == txtCorreo.text)
+                                  .isNotEmpty &&
+                              usuarios
+                                  .where((e) => e.password == txtPassword.text)
+                                  .isNotEmpty) {
+                            Navigator.pushReplacementNamed(context, 'home');
+                          } else {
+                            showDialog(
+                              useSafeArea: true,
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text('Usuario no existe'),
+                                  content: Text(
+                                    'Por favor, ingrese un usuario válido',
+                                  ),
+                                  actions: [
+                                    MaterialButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('OK'),
                                     ),
-                                    actions: [
-                                      MaterialButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text('OK'),
-                                      ),
-                                    ],
-                                    shape: RoundedRectangleBorder(),
-                                  );
-                                },
-                              );
-                            }
-                          },
-                        ),
-                      ],
-                    ),
+                                  ],
+                                  shape: RoundedRectangleBorder(),
+                                );
+                              },
+                            );
+                          }
+                        },
+                      ),
+                    ],
                   ),
                 ),
               ],
